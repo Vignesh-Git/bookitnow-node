@@ -1,4 +1,4 @@
-const model = require("../../models/users")
+const model = require("../../models/venues")
 
 const helpers = {
 
@@ -6,7 +6,7 @@ const helpers = {
         const user = new model(data);
         return await user.save();
     },
-
+   
     fetchAll : async () => {
         return await model.find()
     },

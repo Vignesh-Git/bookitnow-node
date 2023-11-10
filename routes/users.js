@@ -1,7 +1,6 @@
 'use strict';
 
 const express = require("express");
-const userModel = require("../models/users");
 const app = express();
 const errorhandler = require("../utils/errorHandling")
 const userModelHelpers = require("../utils/modelHelpers/userModelHelpers")
@@ -11,12 +10,7 @@ const jwt = require('jsonwebtoken');
 
 app.post("/api/user/signup",validateApiSchema(APISchemas.signupSchema), async (req, res) => {
     try {
-        // Creating user model
-        const user = new userModel(req.body)
-
-        // Saving it 
-        await user.save();
-        res.send(user);
+        res.send(await userModelHelpers.create(req.body));
     } catch (e) {
         errorhandler(e)
         res.status(500).send(e);
@@ -26,7 +20,7 @@ app.post("/api/user/signup",validateApiSchema(APISchemas.signupSchema), async (r
 app.post("/api/user/login", validateApiSchema(APISchemas.loginSchema), async (req, res)=>{
     try{
 
-        let userObject = await userModelHelpers.fetchUserFilter({
+        let userObject = await userModelHelpers.fetchByFilter({
             email:req.body.email
         })
     
@@ -59,7 +53,7 @@ app.post("/api/user/login", validateApiSchema(APISchemas.loginSchema), async (re
 app.post("/api/user/deleteAccount", validateApiSchema(APISchemas.deleteAccountSchema), async (req, res)=>{
     try{
 
-        let userObject = await userModelHelpers.fetchUserFilter({
+        let userObject = await userModelHelpers.fetchByFilter({
             email:req.body.email,
             password : req.body.password
         })
@@ -78,6 +72,10 @@ app.post("/api/user/deleteAccount", validateApiSchema(APISchemas.deleteAccountSc
         errorhandler(e)
         res.status(500).send(e);
     }
+})
+
+app.get("/api/user/get_all", async(req, res) => {
+    res.send(await userModelHelpers.fetchAll())
 })
 
 
