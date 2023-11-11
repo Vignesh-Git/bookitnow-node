@@ -89,6 +89,12 @@ const venuesSchema = new mongoose.Schema({
     },
     courts : {
         type:[{
+            court_id : {
+                type:mongoose.SchemaTypes.ObjectId,
+                required : true,
+                ref: process.env.COURTS_COLLECTION_NAME
+
+            },
             name : {
                 type : String,
                 enum : courtsEnum,

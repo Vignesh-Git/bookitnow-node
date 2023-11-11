@@ -3,12 +3,13 @@
 const express = require("express");
 const app = express();
 const errorhandler = require("../utils/errorHandling")
-const venueModelHelpers = require("../utils/modelHelpers/venueModelHelpers")
+const modelHelpers = require("../utils/modelHelpers/venueModelHelpers")
 
+// need to implement API schema validation
 
 app.post("/api/venue/add", async (req, res) => {
     try {
-        res.send(await venueModelHelpers.create(req.body));
+        res.send(await modelHelpers.create(req.body));
     } catch (e) {
         errorhandler(e)
         res.status(500).send(e);
@@ -16,7 +17,7 @@ app.post("/api/venue/add", async (req, res) => {
 })
 
 app.get("/api/venue/get_all", async(req, res) => {
-    res.send(await venueModelHelpers.fetchAll())
+    res.send(await modelHelpers.fetchAll())
 })
 
 module.exports = app

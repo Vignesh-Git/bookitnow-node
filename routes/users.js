@@ -3,14 +3,14 @@
 const express = require("express");
 const app = express();
 const errorhandler = require("../utils/errorHandling")
-const userModelHelpers = require("../utils/modelHelpers/userModelHelpers")
+const modelHelpers = require("../utils/modelHelpers/userModelHelpers")
 const APISchemas = require("../apiSchemaValidators/schemas")
 const validateApiSchema = require("../apiSchemaValidators/validator")
 const jwt = require('jsonwebtoken');
 
 app.post("/api/user/signup",validateApiSchema(APISchemas.signupSchema), async (req, res) => {
     try {
-        res.send(await userModelHelpers.create(req.body));
+        res.send(await modelHelpers.create(req.body));
     } catch (e) {
         errorhandler(e)
         res.status(500).send(e);
@@ -20,7 +20,7 @@ app.post("/api/user/signup",validateApiSchema(APISchemas.signupSchema), async (r
 app.post("/api/user/login", validateApiSchema(APISchemas.loginSchema), async (req, res)=>{
     try{
 
-        let userObject = await userModelHelpers.fetchByFilter({
+        let userObject = await modelHelpers.fetchByFilter({
             email:req.body.email
         })
     
@@ -53,13 +53,13 @@ app.post("/api/user/login", validateApiSchema(APISchemas.loginSchema), async (re
 app.post("/api/user/deleteAccount", validateApiSchema(APISchemas.deleteAccountSchema), async (req, res)=>{
     try{
 
-        let userObject = await userModelHelpers.fetchByFilter({
+        let userObject = await modelHelpers.fetchByFilter({
             email:req.body.email,
             password : req.body.password
         })
     
         if(userObject){
-            await userModelHelpers.deleteDocument({
+            await modelHelpers.deleteDocument({
                 email:req.body.email,
                 password : req.body.password
             })
@@ -75,7 +75,7 @@ app.post("/api/user/deleteAccount", validateApiSchema(APISchemas.deleteAccountSc
 })
 
 app.get("/api/user/get_all", async(req, res) => {
-    res.send(await userModelHelpers.fetchAll())
+    res.send(await modelHelpers.fetchAll())
 })
 
 

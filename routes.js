@@ -1,13 +1,11 @@
 const express = require("express")
 const app = express()
 
-// Importing All Routes
-const ping = require("./routes/ping")
-const users = require("./routes/users")
-const venues = require("./routes/venues")
-app.use(ping)
-app.use(users)
-app.use(venues)
+
+app.use(require("./routes/ping"))
+app.use(require("./routes/users"))
+app.use(require("./routes/venues"))
+app.use(require("./routes/courts"))
 
 
 module.exports = app
