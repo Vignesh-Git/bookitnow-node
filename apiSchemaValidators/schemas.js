@@ -21,6 +21,7 @@ const deleteAccountSchema = Joi.object({
 const addCourtSchema = Joi.object({
     name : Joi.string().required(),
     hero_image : Joi.string().required(),
+    allowed_players : Joi.number().required(),
 })
 
 

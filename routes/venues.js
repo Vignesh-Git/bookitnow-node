@@ -20,4 +20,34 @@ app.get("/api/venue/get_all", async(req, res) => {
     res.send(await modelHelpers.fetchAll())
 })
 
+app.get("/api/venue/get_featured_venues", async(req, res) => {
+    res.send(await modelHelpers.fetchAllFeaturedVenues())
+})
+
+app.delete("/api/venue/:id", async (req, res) => {
+    try {
+        if(req.params.id){
+            res.send(await modelHelpers.deleteDocumentById(req.params.id));
+        } else {
+            res.status(500).send("Venue ID is required")
+        }
+    } catch (e) {
+        errorhandler(e)
+        res.status(500).send(e);
+    }
+})
+
+app.put("/api/venue/:id", async (req, res) => {
+    try {
+        if(req.params.id){
+            res.send(await modelHelpers.updateDocument(req.params.id, req.body));
+        } else {
+            res.status(500).send("Venue ID is required")
+        }
+    } catch (e) {
+        errorhandler(e)
+        res.status(500).send(e);
+    }
+})
+
 module.exports = app

@@ -1,4 +1,5 @@
 const model = require("../../models/venues")
+const { default: mongoose } = require("mongoose");
 
 const helpers = {
 
@@ -8,20 +9,33 @@ const helpers = {
     },
    
     fetchAll : async () => {
-        return await model.find()
+        return await model.find({enabled : true}).populate('courts.court_id').exec()
+    },
+
+    fetchAllFeaturedVenues : async () => {
+        return await model.find({is_featured : true, enabled : true}).populate('courts.court_id').exec()
     },
    
     fetchByFilter : async (filterData) => {
         return await model.findOne(
             {
+                enabled : true,
                 ...filterData
             })
     },
 
-    deleteDocument : async (filterData) => {
+    deleteDocumentById : async (id) => {
+        const _id = new mongoose.Types.ObjectId(id);
         return await model.deleteOne({
-            ...filterData
+            _id
         })
+    },
+
+    updateDocument : async (id, data) => {
+        const _id = new mongoose.Types.ObjectId(id);
+        return await model.updateOne({
+            _id
+        }, data)
     }
 }
 

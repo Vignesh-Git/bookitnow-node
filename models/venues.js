@@ -3,7 +3,6 @@
 const mongoose = require("mongoose");
 const daysEnum = require("../enums/days")
 const amenitiesEnum = require("../enums/amenitis")
-const courtsEnum = require("../enums/courts")
 
 const venuesSchema = new mongoose.Schema({
     name: {
@@ -12,6 +11,10 @@ const venuesSchema = new mongoose.Schema({
         trim: true,
         lowercase: true,
         unique: true
+    },
+    is_featured: {
+        type: Boolean,
+        default : false
     },
     address : {
         type : {
@@ -93,13 +96,6 @@ const venuesSchema = new mongoose.Schema({
                 type:mongoose.SchemaTypes.ObjectId,
                 required : true,
                 ref: process.env.COURTS_COLLECTION_NAME
-
-            },
-            name : {
-                type : String,
-                enum : courtsEnum,
-                required : true,
-                trim : true,
             },
             hero_image : {
                 type: String,

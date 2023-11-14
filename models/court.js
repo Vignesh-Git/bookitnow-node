@@ -1,7 +1,6 @@
 'use strict';
 
 const mongoose = require("mongoose");
-const roleEnum = require("../enums/role")
 
 const courtSchema = new mongoose.Schema({
     name: {
@@ -16,6 +15,10 @@ const courtSchema = new mongoose.Schema({
         required: true,
         trim: true,
         unique: true
+    },
+    allowed_players : {
+        type : Number,
+        required : true,
     },
     
     createdOn: {
