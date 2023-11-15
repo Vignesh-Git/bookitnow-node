@@ -50,4 +50,14 @@ app.put("/api/venue/:id", async (req, res) => {
     }
 })
 
+app.get("/api/court/:id", async(req, res) => {
+    if(req.params.id){
+        const _id = new mongoose.Types.ObjectId(req.params.id);
+        res.send(await modelHelpers.fetchByFilter({_id}))
+    } else {
+        res.status(500).send("Venue ID is required")
+    }
+    
+})
+
 module.exports = app

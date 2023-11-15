@@ -24,6 +24,12 @@ const helpers = {
             _id
         })
     },
+    updateDocument : async (id, data) => {
+        const _id = new mongoose.Types.ObjectId(id);
+        return await model.updateOne({
+            _id
+        }, data)
+    }
 
 }
 
