@@ -46,7 +46,7 @@ app.get("/api/court/:id", async(req, res) => {
     
 })
 
-app.put("/api/venue/:id", async (req, res) => {
+app.put("/api/court/:id", async (req, res) => {
     try {
         if(req.params.id){
             res.send(await modelHelpers.updateDocument(req.params.id, req.body));

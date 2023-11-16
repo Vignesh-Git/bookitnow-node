@@ -51,7 +51,7 @@ app.put("/api/venue/:id", async (req, res) => {
     }
 })
 
-app.get("/api/court/:id", async(req, res) => {
+app.get("/api/venue/:id", async(req, res) => {
     if(req.params.id){
         const _id = new mongoose.Types.ObjectId(req.params.id);
         res.send(await modelHelpers.fetchByFilter({_id}))
