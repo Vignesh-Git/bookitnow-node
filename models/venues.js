@@ -4,6 +4,33 @@ const mongoose = require("mongoose");
 const daysEnum = require("../enums/days")
 const amenitiesEnum = require("../enums/amenitis")
 
+
+const priceSchema = {
+    time_from : {
+        type : Date,
+        required : true
+    },
+    time_to : {
+        type : Date,
+        required : true
+    },
+    amount : {
+        type : Number,
+        required : true
+    }
+}
+
+const openingHrsSchema = {
+    from : {
+        type : Date,
+        required : true
+    },
+    to : {
+        type : Date,
+        required : true
+    }
+}
+
 const venuesSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -11,6 +38,29 @@ const venuesSchema = new mongoose.Schema({
         trim: true,
         lowercase: true,
         unique: true
+    },
+    social_media : {
+        type:{
+            facebook : {
+                type : String,
+            },
+            instagram : {
+                type : String,
+            },
+            whatsapp : {
+                type : String,
+            },
+            twitter : {
+                type : String,
+            }
+        }
+    },
+    website : {
+        type : String,
+    },
+    phone_numbers : {
+        type : [String],
+        required : true
     },
     is_featured: {
         type: Boolean,
@@ -101,6 +151,71 @@ const venuesSchema = new mongoose.Schema({
                 type: String,
                 required: true,
                 trim: true,
+            },
+            opening_hours : {
+                type : {
+                    monday : {
+                        type : [openingHrsSchema],
+                    },
+                    tuesday : {
+                        type : [openingHrsSchema],
+                        
+                    },
+                    wednesday : {
+                        type : [openingHrsSchema],
+                        
+                    },
+                    thursday : {
+                        type : [openingHrsSchema],
+                        
+                    },
+                    friday : {
+                        type : [openingHrsSchema],
+                        
+                    },
+                    saturday : {
+                        type : [openingHrsSchema],
+                        
+                    },
+                    sunday : {
+                        type : [openingHrsSchema],
+                    },
+                },
+                required : true
+            },
+            price : {
+                type : {
+                    monday : {
+                        type : [priceSchema],
+                        
+                    },
+                    tuesday : {
+                        type : [priceSchema],
+                        
+                    },
+                    wednesday : {
+                        type : [priceSchema],
+                        
+                    },
+                    thursday : {
+                        type : [priceSchema],
+                        
+                    },
+                    friday : {
+                        type : [priceSchema],
+                        
+                    },
+                    saturday : {
+                        type : [priceSchema],
+                        
+                    },
+                    sunday : {
+                        type : [priceSchema],
+                        
+                    },
+                    
+                },
+                required : true
             },
             description : {
                 type: String,

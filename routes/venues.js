@@ -4,6 +4,7 @@ const express = require("express");
 const app = express();
 const errorhandler = require("../utils/errorHandling")
 const modelHelpers = require("../utils/modelHelpers/venueModelHelpers")
+const { default: mongoose } = require("mongoose");
 
 // need to implement API schema validation
 
