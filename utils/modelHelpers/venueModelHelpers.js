@@ -19,7 +19,7 @@ const helpers = {
     fetchByFilter : async (filterData) => {
         return await model.findOne(
             {
-                enabled : true,
+                
                 ...filterData
             })
     },
