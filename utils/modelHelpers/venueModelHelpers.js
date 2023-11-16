@@ -9,7 +9,7 @@ const helpers = {
     },
    
     fetchAll : async () => {
-        return await model.find({enabled : true}).populate('courts.court_id').exec()
+        return await model.find().populate('courts.court_id').exec()
     },
 
     fetchAllFeaturedVenues : async () => {
