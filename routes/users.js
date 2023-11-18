@@ -75,7 +75,12 @@ app.post("/api/user/deleteAccount", validateApiSchema(APISchemas.deleteAccountSc
 })
 
 app.get("/api/user/get_all", async(req, res) => {
-    res.send(await modelHelpers.fetchAll())
+    try{
+        res.send(await modelHelpers.fetchAll())
+    } catch(e){
+        errorhandler(e)
+        res.status(500).send(e);
+    }
 })
 
 

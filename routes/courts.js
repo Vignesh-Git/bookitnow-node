@@ -33,15 +33,25 @@ app.delete("/api/court/:id", async (req, res) => {
 })
 
 app.get("/api/court/get_all", async(req, res) => {
-    res.send(await modelHelpers.fetchAll())
+    try{
+        res.send(await modelHelpers.fetchAll())
+    } catch(e){
+        errorhandler(e)
+        res.status(500).send(e);
+    }
 })
 
 app.get("/api/court/:id", async(req, res) => {
-    if(req.params.id){
-        const _id = new mongoose.Types.ObjectId(req.params.id);
-        res.send(await modelHelpers.fetchByFilter({_id}))
-    } else {
-        res.status(500).send("Court ID is required")
+    try{
+        if(req.params.id){
+            const _id = new mongoose.Types.ObjectId(req.params.id);
+            res.send(await modelHelpers.fetchByFilter({_id}))
+        } else {
+            res.status(500).send("Court ID is required")
+        }
+    } catch(e){
+        errorhandler(e)
+        res.status(500).send(e);
     }
     
 })
