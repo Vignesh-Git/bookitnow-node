@@ -15,8 +15,7 @@ const corsOptions = {
   }
 
 app.use(cors(corsOptions))
-app.use(express.json()) // body parser
-app.use(express.bodyParser({limit: '100mb'}));
+app.use(express.json({limit:'50mb'})) // body parser
 
 // Assigning All routes
 const routes = require("./routes")
