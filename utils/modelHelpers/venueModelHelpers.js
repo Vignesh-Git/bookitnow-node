@@ -21,7 +21,7 @@ const helpers = {
             {
                 $group:
                 {
-                    _id: "$address._id",
+                    _id: null,
                     location : {
                         $addToSet : {
                             city : "$address.city",
