@@ -35,6 +35,15 @@ app.get("/api/venue/get_featured_venues", async(req, res) => {
     }
 })
 
+app.get("/api/venue/get_locations", async(req, res) => {
+    try{
+        res.send(await modelHelpers.getUniqueLocations())
+    } catch(e){
+        errorhandler(e)
+        res.status(500).send(e);
+    }
+})
+
 app.delete("/api/venue/:id", async (req, res) => {
     try {
         if(req.params.id){
