@@ -82,6 +82,17 @@ app.get("/api/venue/:id", async(req, res) => {
         errorhandler(e)
         res.status(500).send(e);
     }
+})
+
+app.post("/api/venue/search_for_booking", async(req, res) => {
+    try{
+        res.send(await modelHelpers.searchForBooking({
+            ...req.body
+        }))
+    } catch(e){
+        errorhandler(e)
+        res.status(500).send(e);
+    }
     
 })
 

@@ -40,6 +40,19 @@ const helpers = {
             }).populate('courts.court_id').exec()
     },
 
+    searchForBooking: async (filterData) => {
+        return await model.find(
+            {
+                "address.city" : filterData.location.city,
+                "address.state" : filterData.location.state,
+                "courts.court_id" : filterData.court.id,
+                "courts.number_of_courts" : {
+                    $gt : 0
+                }
+            })
+    },
+
+
     deleteDocumentById: async (id) => {
         const _id = new mongoose.Types.ObjectId(id);
         return await model.deleteOne({
