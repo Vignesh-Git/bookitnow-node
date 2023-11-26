@@ -27,8 +27,8 @@ const bookingSchema = new mongoose.Schema({
         type: Date,
         required : true,
     },
-    endTime: {
-        type: Date,
+    duration: {
+        type: String,
         required : true,
     },
     status: {
@@ -38,7 +38,7 @@ const bookingSchema = new mongoose.Schema({
     },
     amount_paid : {
         type : Number,
-        required : true,   
+        required : true,
     },
     no_of_courts : {
         type : Number,
