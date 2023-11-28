@@ -6,28 +6,28 @@ const amenitiesEnum = require("../enums/amenitis")
 
 
 const priceSchema = {
-    time_from : {
-        type : Date,
-        required : true
+    time_from: {
+        type: Date,
+        required: true
     },
-    time_to : {
-        type : Date,
-        required : true
+    time_to: {
+        type: Date,
+        required: true
     },
-    amount : {
-        type : Number,
-        required : true
+    amount: {
+        type: Number,
+        required: true
     }
 }
 
 const openingHrsSchema = {
-    from : {
-        type : Date,
-        required : true
+    from: {
+        type: Date,
+        required: true
     },
-    to : {
-        type : Date,
-        required : true
+    to: {
+        type: Date,
+        required: true
     }
 }
 
@@ -39,69 +39,69 @@ const venuesSchema = new mongoose.Schema({
         lowercase: true,
         unique: true
     },
-    social_media : {
-        type:{
-            facebook : {
-                type : String,
+    social_media: {
+        type: {
+            facebook: {
+                type: String,
             },
-            instagram : {
-                type : String,
+            instagram: {
+                type: String,
             },
-            whatsapp : {
-                type : String,
+            whatsapp: {
+                type: String,
             },
-            twitter : {
-                type : String,
+            twitter: {
+                type: String,
             }
         }
     },
-    website : {
-        type : String,
+    website: {
+        type: String,
     },
-    phone_numbers : {
-        type : [String],
-        required : true
+    phone_numbers: {
+        type: [String],
+        required: true
     },
     is_featured: {
         type: Boolean,
-        default : false
+        default: false
     },
-    address : {
-        type : {
-            street_name : {
-                type : String,
+    address: {
+        type: {
+            street_name: {
+                type: String,
                 required: true,
                 trim: true,
             },
-            city : {
-                type : String,
+            city: {
+                type: String,
                 required: true,
                 trim: true,
             },
-            state : {
-                type : String,
+            state: {
+                type: String,
                 required: true,
                 trim: true,
             },
-            country : {
-                type : String,
+            country: {
+                type: String,
                 required: true,
                 trim: true,
             },
-            pincode : {
-                type : String,
+            pincode: {
+                type: String,
                 required: true,
                 trim: true,
             },
-            geo_location : {
-                type : {
-                    lat : {
-                        type : String,
+            geo_location: {
+                type: {
+                    lat: {
+                        type: String,
                         required: true,
                         trim: true,
                     },
-                    long : {
-                        type : String,
+                    long: {
+                        type: String,
                         required: true,
                         trim: true,
                     }
@@ -109,135 +109,145 @@ const venuesSchema = new mongoose.Schema({
             }
         }
     },
-    hero_image : {
+    hero_image: {
         type: String,
         required: true,
         trim: true,
     },
-    description : {
+    description: {
         type: String,
         required: true,
         trim: true,
     },
-    enabled : {
+    enabled: {
         type: Boolean,
         required: true,
-        default:true
+        default: true
     },
-    extra_images : {
+    extra_images: {
         type: [String],
         required: true,
         trim: true,
     },
-    amenities : {
+    amenities: {
         type: [String],
-        enum : amenitiesEnum,
+        enum: amenitiesEnum,
         required: true,
         trim: true,
     },
-    available_days : {
-        type:[String],
-        enum : daysEnum,
+    available_days: {
+        type: [String],
+        enum: daysEnum,
         required: true,
     },
-    courts : {
-        type:[{
-            court_id : {
-                type:mongoose.SchemaTypes.ObjectId,
-                required : true,
-                ref: process.env.COURTS_COLLECTION_NAME
+    courts: {
+        type: [{
+            sport_id: {
+                type: mongoose.SchemaTypes.ObjectId,
+                required: true,
+                ref: process.env.SPORTS_COLLECTION_NAME
             },
-            hero_image : {
+            hero_image: {
                 type: String,
                 required: true,
                 trim: true,
             },
-            opening_hours : {
-                type : {
-                    monday : {
-                        type : [openingHrsSchema],
+            court_name: {
+                type: String,
+                required: true,
+                trim: true
+            },
+            court_code: {
+                type: String,
+                required: true,
+                trim: true
+            },
+            opening_hours: {
+                type: {
+                    monday: {
+                        type: [openingHrsSchema],
                     },
-                    tuesday : {
-                        type : [openingHrsSchema],
-                        
+                    tuesday: {
+                        type: [openingHrsSchema],
+
                     },
-                    wednesday : {
-                        type : [openingHrsSchema],
-                        
+                    wednesday: {
+                        type: [openingHrsSchema],
+
                     },
-                    thursday : {
-                        type : [openingHrsSchema],
-                        
+                    thursday: {
+                        type: [openingHrsSchema],
+
                     },
-                    friday : {
-                        type : [openingHrsSchema],
-                        
+                    friday: {
+                        type: [openingHrsSchema],
+
                     },
-                    saturday : {
-                        type : [openingHrsSchema],
-                        
+                    saturday: {
+                        type: [openingHrsSchema],
+
                     },
-                    sunday : {
-                        type : [openingHrsSchema],
+                    sunday: {
+                        type: [openingHrsSchema],
                     },
                 },
-                required : true
+                required: true
             },
-            price : {
-                type : {
-                    monday : {
-                        type : [priceSchema],
-                        
+            price: {
+                type: {
+                    monday: {
+                        type: [priceSchema],
+
                     },
-                    tuesday : {
-                        type : [priceSchema],
-                        
+                    tuesday: {
+                        type: [priceSchema],
+
                     },
-                    wednesday : {
-                        type : [priceSchema],
-                        
+                    wednesday: {
+                        type: [priceSchema],
+
                     },
-                    thursday : {
-                        type : [priceSchema],
-                        
+                    thursday: {
+                        type: [priceSchema],
+
                     },
-                    friday : {
-                        type : [priceSchema],
-                        
+                    friday: {
+                        type: [priceSchema],
+
                     },
-                    saturday : {
-                        type : [priceSchema],
-                        
+                    saturday: {
+                        type: [priceSchema],
+
                     },
-                    sunday : {
-                        type : [priceSchema],
-                        
+                    sunday: {
+                        type: [priceSchema],
+
                     },
-                    
+
                 },
-                required : true
+                required: true
             },
-            description : {
+            description: {
                 type: String,
                 required: true,
                 trim: true,
             },
-            enabled : {
+            enabled: {
                 type: Boolean,
                 required: true,
-                default:true
+                default: true
             },
-            policy : {
+            policy: {
                 type: String,
                 required: true,
             },
-            extra_images : {
+            extra_images: {
                 type: [String],
                 required: true,
                 trim: true,
             },
-            number_of_courts : {
-                type : Number,
+            number_of_courts: {
+                type: Number,
                 required: true,
             }
         }]
@@ -248,6 +258,6 @@ const venuesSchema = new mongoose.Schema({
     }
 });
 
-const venuesModel = mongoose.model(process.env.VENUES_COLLECTION_NAME, venuesSchema);
+const model = mongoose.model(process.env.VENUES_COLLECTION_NAME, venuesSchema);
 
-module.exports = venuesModel;
+module.exports = model;

@@ -9,11 +9,11 @@ const helpers = {
     },
 
     fetchAll: async () => {
-        return await model.find().populate('courts.court_id').exec()
+        return await model.find().populate('courts.sport_id').exec()
     },
 
     fetchAllFeaturedVenues: async () => {
-        return await model.find({ is_featured: true, enabled: true }).populate('courts.court_id').exec()
+        return await model.find({ is_featured: true, enabled: true }).populate('courts.sport_id').exec()
     },
 
     getUniqueLocations: async () => {
@@ -38,7 +38,7 @@ const helpers = {
             {
                 ...filterData
                 
-            }).populate('courts.court_id').exec()
+            }).populate('courts.sport_id').exec()
     },
 
     searchForBooking: async (filterData) => {
@@ -46,7 +46,7 @@ const helpers = {
             {
                 "address.city" : filterData.location.city,
                 "address.state" : filterData.location.state,
-                "courts.court_id" : filterData.court.id,
+                "courts.sport_id" : filterData.court.id,
                 "courts.number_of_courts" : {
                     $gt : 0
                 }

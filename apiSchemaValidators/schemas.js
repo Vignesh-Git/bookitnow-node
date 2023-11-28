@@ -18,7 +18,7 @@ const deleteAccountSchema = Joi.object({
     password : Joi.string().required(),
 })
 
-const addCourtSchema = Joi.object({
+const addSportSchema = Joi.object({
     name : Joi.string().required(),
     hero_image : Joi.string().required(),
     allowed_players : Joi.number().required(),
@@ -32,5 +32,5 @@ module.exports = {
     signupSchema,
     loginSchema,
     deleteAccountSchema,
-    addCourtSchema
+    addSportSchema
 }

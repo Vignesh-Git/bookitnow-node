@@ -3,7 +3,7 @@
 const mongoose = require("mongoose");
 const roleEnum = require("../enums/role")
 
-const bookingSchema = new mongoose.Schema({
+const schema = new mongoose.Schema({
     user_id: {
         type:mongoose.SchemaTypes.ObjectId,
         required : true,
@@ -51,6 +51,6 @@ const bookingSchema = new mongoose.Schema({
 
 });
 
-const bookingModel = mongoose.model(process.env.BOOKING_COLLECTION_NAME, bookingSchema);
+const model = mongoose.model(process.env.BOOKING_COLLECTION_NAME, schema);
 
-module.exports = bookingModel;
+module.exports = model;

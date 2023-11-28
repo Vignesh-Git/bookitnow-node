@@ -1,5 +1,5 @@
 const { default: mongoose } = require("mongoose");
-const model = require("../../models/court")
+const model = require("../../models/sport")
 
 const helpers = {
 

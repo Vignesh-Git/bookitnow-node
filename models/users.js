@@ -3,7 +3,7 @@
 const mongoose = require("mongoose");
 const roleEnum = require("../enums/role")
 
-const userSchema = new mongoose.Schema({
+const schema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
@@ -29,6 +29,6 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-const userModel = mongoose.model(process.env.USER_COLLECTION_NAME, userSchema);
+const model = mongoose.model(process.env.USER_COLLECTION_NAME, schema);
 
-module.exports = userModel;
+module.exports = model;

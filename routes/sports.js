@@ -3,13 +3,13 @@
 const express = require("express");
 const app = express();
 const errorhandler = require("../utils/errorHandling")
-const modelHelpers = require("../utils/modelHelpers/courtModelHelpers")
+const modelHelpers = require("../utils/modelHelpers/sportModelHelpers")
 const APISchemas = require("../apiSchemaValidators/schemas")
 const validateApiSchema = require("../apiSchemaValidators/validator");
 const { default: mongoose } = require("mongoose");
 
 
-app.post("/api/court/add", validateApiSchema(APISchemas.addCourtSchema), async (req, res) => {
+app.post("/api/sport/add", validateApiSchema(APISchemas.addSportSchema), async (req, res) => {
     try {
         res.send(await modelHelpers.create(req.body));
     } catch (e) {
@@ -18,12 +18,12 @@ app.post("/api/court/add", validateApiSchema(APISchemas.addCourtSchema), async (
     }
 })
 
-app.delete("/api/court/:id", async (req, res) => {
+app.delete("/api/sport/:id", async (req, res) => {
     try {
         if(req.params.id){
             res.send(await modelHelpers.deleteDocumentById(req.params.id));
         } else {
-            res.status(500).send("Court ID is required")
+            res.status(500).send("Sport ID is required")
         }
         
     } catch (e) {
@@ -32,7 +32,7 @@ app.delete("/api/court/:id", async (req, res) => {
     }
 })
 
-app.get("/api/court/get_all", async(req, res) => {
+app.get("/api/sport/get_all", async(req, res) => {
     try{
         res.send(await modelHelpers.fetchAll())
     } catch(e){
@@ -41,13 +41,13 @@ app.get("/api/court/get_all", async(req, res) => {
     }
 })
 
-app.get("/api/court/:id", async(req, res) => {
+app.get("/api/sport/:id", async(req, res) => {
     try{
         if(req.params.id){
             const _id = new mongoose.Types.ObjectId(req.params.id);
             res.send(await modelHelpers.fetchByFilter({_id}))
         } else {
-            res.status(500).send("Court ID is required")
+            res.status(500).send("Sport ID is required")
         }
     } catch(e){
         errorhandler(e)
@@ -56,12 +56,12 @@ app.get("/api/court/:id", async(req, res) => {
     
 })
 
-app.put("/api/court/:id", async (req, res) => {
+app.put("/api/sport/:id", async (req, res) => {
     try {
         if(req.params.id){
             res.send(await modelHelpers.updateDocument(req.params.id, req.body));
         } else {
-            res.status(500).send("Court ID is required")
+            res.status(500).send("Sport ID is required")
         }
     } catch (e) {
         errorhandler(e)

@@ -2,7 +2,7 @@
 
 const mongoose = require("mongoose");
 
-const courtSchema = new mongoose.Schema({
+const schema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -27,6 +27,6 @@ const courtSchema = new mongoose.Schema({
     }
 });
 
-const courtModel = mongoose.model(process.env.COURTS_COLLECTION_NAME, courtSchema);
+const model = mongoose.model(process.env.SPORTS_COLLECTION_NAME, schema);
 
-module.exports = courtModel;
+module.exports = model;
