@@ -131,6 +131,13 @@ app.post("/api/venue/get_durations", async (req, res) => {
     }
 })
 
-app.post("/api/venue/get_courts")
+app.post("/api/venue/get_live_availabilty", async (req, res) => {
+    try{
+        res.send(await modelHelpers.frameAvailableTimingsGroupByCourt(req.body.venueId, req.body.date))
+    } catch(e){
+        errorhandler(e)
+        res.status(500).send(e);
+    }
+})
 
 module.exports = app

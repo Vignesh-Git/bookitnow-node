@@ -3,15 +3,10 @@ const model = require("../../models/venues")
 const bookingModelHelpers = require("../modelHelpers/bookingModelHelpers")
 const { default: mongoose } = require("mongoose");
 
-const isTimeBetween = (startTime, endTime, checkTime, isInclusive = false) => {
+const isTimeBetween = (startTime, endTime, checkTime) => {
     const start = new Date(`1970-01-01 ${startTime}`);
     const end = new Date(`1970-01-01 ${endTime}`);
     const check = new Date(`1970-01-01 ${checkTime}`);
-    // if (isInclusive) {
-    //     return start <= check && check < end;
-    // }
-    // return start < check && check < end;
-
     return start <= check && check <= end;
 
 }
@@ -78,7 +73,7 @@ const helpers = {
                                         let bookEnd = new Date(ccb.end_time);
                                         let bookFromTime = `${appendLeadingZero(bookStart.getHours())}:${appendLeadingZero(bookStart.getMinutes())}:00`
                                         let bookToTime = `${appendLeadingZero(bookEnd.getHours())}:${appendLeadingZero(bookEnd.getMinutes())}:00`
-                                        if (isTimeBetween(bookFromTime, bookToTime, currentTime, true)) {
+                                        if (isTimeBetween(bookFromTime, bookToTime, currentTime)) {
                                             isBooked = true
                                         }
                                     })
@@ -121,6 +116,116 @@ const helpers = {
                 }
 
                 resolve(timings)
+            } catch (e) {
+                reject(e)
+            }
+        })
+    },
+
+    frameAvailableTimingsGroupByCourt: async (venueId, date) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const _id = new mongoose.Types.ObjectId(venueId);
+                const timings = {}
+                const venue = await model.findOne({ _id }).populate('courts.sport_id').exec()
+                let searchDate = new Date(date)
+                searchDate = new Date(searchDate.getTime() - searchDate.getTimezoneOffset() * -60000);
+                let searchDay = daysIndex[searchDate.getDay()]
+
+                let dayBegin = new Date(searchDate), dayEnd = new Date(searchDate);
+                dayBegin.setHours(0)
+                dayBegin.setMinutes(0)
+                dayBegin.setSeconds(0)
+                dayEnd.setHours(23)
+                dayEnd.setMinutes(59)
+                dayEnd.setSeconds(59)
+                const bookedVenue = await bookingModelHelpers.fetchByFilterWithoutPopulate({
+                    venue_id: _id,
+                    $and: [
+                        {
+                            date: {
+                                $gte: dayBegin.toISOString()
+                            }
+                        },
+                        {
+                            date: {
+                                $lte: dayEnd.toISOString()
+                            }
+                        }
+                    ]
+                })
+
+                if (venue) {
+                    venue.courts.map(oneCourt => {
+                        let currentCourtBookings = bookedVenue.filter(b => b.court_id == oneCourt.id);
+                        if (oneCourt.opening_hours[searchDay]) {
+                            oneCourt.opening_hours[searchDay].forEach((timeSlots) => {
+                                let from = new Date(timeSlots.from);
+                                let to = new Date(timeSlots.to);
+
+                                let checkInBooking = (currentTime) => {
+                                    let isBooked = false
+                                    currentCourtBookings.map(ccb => {
+                                        let bookStart = new Date(ccb.start_time);
+                                        let bookEnd = new Date(ccb.end_time);
+                                        let bookFromTime = `${appendLeadingZero(bookStart.getHours())}:${appendLeadingZero(bookStart.getMinutes())}:00`
+                                        let bookToTime = `${appendLeadingZero(bookEnd.getHours())}:${appendLeadingZero(bookEnd.getMinutes())}:00`
+                                        if (isTimeBetween(bookFromTime, bookToTime, currentTime)) {
+                                            isBooked = true
+                                        }
+                                    })
+                                    return isBooked
+                                }
+
+                                let pushToResult = (hrs, min) => {
+                                    let h = hrs % 12;
+                                    h = h == 0 ? 12 : h;
+                                    let meridian = hrs >= 12 ? "PM" : "AM"
+                                    let timeToPush = `${appendLeadingZero(h)}:${appendLeadingZero(min)} ${meridian}`
+                                    if(!timings.hasOwnProperty(oneCourt._id)){
+                                        timings[oneCourt._id] = {
+                                            courtDetails : {
+                                                court_name : oneCourt.court_name,
+                                                court_code : oneCourt.court_code,
+                                                sport_name : oneCourt.sport_id.name,
+                                                sport_id : oneCourt.sport_id._id,
+                                                court_id : oneCourt._id,
+                                            },
+                                            availability : []
+                                        }
+                                    }
+                                    // timings[oneCourt._id].availability[timeToPush] = true;
+                                    timings[oneCourt._id].availability.push(timeToPush)
+                                }
+
+                                for (let hour = 0; hour < 24; hour++) {
+                                    let minute = 0;
+                                    let fromTime = `${appendLeadingZero(from.getHours())}:${appendLeadingZero(from.getMinutes())}:00`
+                                    let toTime = `${appendLeadingZero(to.getHours())}:${appendLeadingZero(to.getMinutes())}:00`
+                                    let currentTime = `${appendLeadingZero(hour)}:${appendLeadingZero(minute)}:00`
+                                    if (isTimeBetween(fromTime, toTime, currentTime)) {
+                                        let isBooked = checkInBooking(currentTime)
+
+                                        if (!(isBooked)) {
+                                            pushToResult(hour, minute, oneCourt)
+                                        }
+
+                                    }
+                                    minute = 30;
+                                    currentTime = `${appendLeadingZero(hour)}:${appendLeadingZero(minute)}:00`
+                                    if (isTimeBetween(fromTime, toTime, currentTime)) {
+                                        let isBooked = checkInBooking(currentTime)
+                                        if (!(isBooked)) {
+                                            pushToResult(hour, minute, oneCourt)
+                                        }
+                                    }
+                                }
+                            })
+                        }
+                    })
+                }
+
+                resolve(Object.values(timings))
             } catch (e) {
                 reject(e)
             }
@@ -182,7 +287,7 @@ const helpers = {
                                         let bookEnd = new Date(ccb.end_time);
                                         let bookFromTime = `${appendLeadingZero(bookStart.getHours())}:${appendLeadingZero(bookStart.getMinutes())}:00`
                                         let bookToTime = `${appendLeadingZero(bookEnd.getHours())}:${appendLeadingZero(bookEnd.getMinutes())}:00`
-                                        if (isTimeBetween(bookFromTime, bookToTime, currentTime, true)) {
+                                        if (isTimeBetween(bookFromTime, bookToTime, currentTime)) {
                                             isBooked = true
                                         }
                                     })
@@ -200,9 +305,6 @@ const helpers = {
                                     let allowedTime = `${allowedTimingInMinutes / 60} hrs`;
                                     !(timings.includes(allowedTime)) && allowedTimingInMinutes != -1 && timings.push(allowedTime);
                                     previouslyAddedHr = hrs;
-                                  
-
-
                                 }
 
                                 let minute = startingTime.getMinutes();
