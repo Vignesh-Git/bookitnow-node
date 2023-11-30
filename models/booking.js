@@ -7,7 +7,7 @@ const schema = new mongoose.Schema({
     user_id: {
         type:mongoose.SchemaTypes.ObjectId,
         required : true,
-        ref: process.env.USERS_COLLECTION_NAME
+        ref: process.env.USER_COLLECTION_NAME
     },
     venue_id: {
         type:mongoose.SchemaTypes.ObjectId,
@@ -17,7 +17,6 @@ const schema = new mongoose.Schema({
     court_id : {
         type:mongoose.SchemaTypes.ObjectId,
         required : true,
-        ref: process.env.OURTS_COLLECTION_NAME
     },
     date: {
         type: Date,
@@ -27,20 +26,20 @@ const schema = new mongoose.Schema({
         type: Date,
         required : true,
     },
-    duration: {
-        type: String,
+    end_time: {
+        type: Date,
         required : true,
     },
     status: {
         type: String,
-        enum : ['pending', 'approved', 'rejected'],
+        enum : ['pending', 'approved', 'rejected', 'expired', 'cancelled'],
         required : true,
+        default : 'pending'
+    },
+    remarks: {
+        type: String,
     },
     amount_paid : {
-        type : Number,
-        required : true,
-    },
-    no_of_courts : {
         type : Number,
         required : true,
     },

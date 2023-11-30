@@ -17,7 +17,7 @@ app.post("/api/booking/add", async (req, res) => {
     }
 })
 
-app.get("/api/booking/get_all", async(req, res) => {
+app.get("/api/booking/:venueId/:courtId", async(req, res) => {
     try{
         res.send(await modelHelpers.fetchAll())
     } catch(e){

@@ -14,9 +14,8 @@ const helpers = {
 
    
     fetchByFilter : async (filterData) => {
-        return await model.findOne(
+        return await model.find(
             {
-                
                 ...filterData
             })
     },
@@ -33,7 +32,9 @@ const helpers = {
         return await model.updateOne({
             _id
         }, data)
-    }
+    },
+
+ 
 }
 
 module.exports = helpers
