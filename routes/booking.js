@@ -73,6 +73,20 @@ app.get("/api/booking/:id", async(req, res) => {
         errorhandler(e)
         res.status(500).send(e);
     }
+})
+
+app.get("/api/booking/get_by_user_id/:userId", async(req, res) => {
+    try{
+        if(req.params.userId){
+            const user_id = new mongoose.Types.ObjectId(req.params.userId);
+            res.send(await modelHelpers.fetchByFilter({user_id}))
+        } else {
+            res.status(500).send("Venue ID is required")
+        }
+    } catch(e){
+        errorhandler(e)
+        res.status(500).send(e);
+    }
     
 })
 
