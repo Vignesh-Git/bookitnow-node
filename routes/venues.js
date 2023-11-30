@@ -131,7 +131,7 @@ app.post("/api/venue/get_durations", async (req, res) => {
     }
 })
 
-app.post("/api/venue/get_live_availabilty", async (req, res) => {
+app.post("/api/venue/get_live_availability", async (req, res) => {
     try{
         res.send(await modelHelpers.frameAvailableTimingsGroupByCourt(req.body.venueId, req.body.date))
     } catch(e){
