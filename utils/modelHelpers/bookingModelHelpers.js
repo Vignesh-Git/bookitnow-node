@@ -9,11 +9,18 @@ const helpers = {
     },
    
     fetchAll : async () => {
-        return await model.find()
+        return await model.find({}).populate("venue_id").exec()
     },
 
    
     fetchByFilter : async (filterData) => {
+        return await model.find(
+            {
+                ...filterData
+            }).populate("venue_id").exec()
+    },
+
+    fetchByFilterWithoutPopulate : async (filterData) => {
         return await model.find(
             {
                 ...filterData

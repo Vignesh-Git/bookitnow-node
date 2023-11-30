@@ -26,14 +26,7 @@ app.get("/api/booking/get_all", async(req, res) => {
     }
 })
 
-app.get("/api/booking/get_featured_venues", async(req, res) => {
-    try{
-        res.send(await modelHelpers.fetchAllFeaturedVenues())
-    } catch(e){
-        errorhandler(e)
-        res.status(500).send(e);
-    }
-})
+
 
 app.delete("/api/booking/:id", async (req, res) => {
     try {
@@ -81,7 +74,7 @@ app.get("/api/booking/get_by_user_id/:userId", async(req, res) => {
             const user_id = new mongoose.Types.ObjectId(req.params.userId);
             res.send(await modelHelpers.fetchByFilter({user_id}))
         } else {
-            res.status(500).send("Venue ID is required")
+            res.status(500).send("User ID is required")
         }
     } catch(e){
         errorhandler(e)

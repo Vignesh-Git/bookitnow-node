@@ -45,7 +45,7 @@ const helpers = {
                 dayEnd.setMinutes(59)
                 dayEnd.setSeconds(59)
 
-                const bookedVenue = await bookingModelHelpers.fetchByFilter({
+                const bookedVenue = await bookingModelHelpers.fetchByFilterWithoutPopulate({
                     venue_id: _id,
                     $and: [
                         {
@@ -146,7 +146,7 @@ const helpers = {
                 dayEnd.setMinutes(59)
                 dayEnd.setSeconds(59)
 
-                const bookedVenue = await bookingModelHelpers.fetchByFilter({
+                const bookedVenue = await bookingModelHelpers.fetchByFilterWithoutPopulate({
                     venue_id: _id,
                     $and: [
                         {
