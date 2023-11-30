@@ -87,7 +87,8 @@ const helpers = {
 
                                 let pushToResult = (hrs, min) => {
                                     let h = hrs % 12;
-                                    let meridian = hrs > 12 ? "PM" : "AM"
+                                    h = h == 0 ? 12 : h;
+                                    let meridian = hrs >= 12 ? "PM" : "AM"
                                     let timeToPush = `${appendLeadingZero(h)}:${appendLeadingZero(min)} ${meridian}`
                                     !(timings.includes(timeToPush)) && timings.push(timeToPush)
                                 }
