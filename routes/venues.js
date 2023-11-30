@@ -140,4 +140,17 @@ app.post("/api/venue/get_live_availability", async (req, res) => {
     }
 })
 
+app.post("/api/venue/get_filtered_courts_for_booking", async (req, res) => {
+    try{
+        let result = []
+        const courtData = await modelHelpers.frameAvailableTimingsGroupByCourt(req.body.venueId, req.body.date);
+        result = courtData.filter(oneCourtData => oneCourtData.courtDetails.sport_id == req.body.sportId)
+
+
+    } catch(e){
+        errorhandler(e)
+        res.status(500).send(e);
+    }
+})
+
 module.exports = app

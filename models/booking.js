@@ -15,7 +15,7 @@ const schema = new mongoose.Schema({
         ref: process.env.VENUES_COLLECTION_NAME
     },
     court_id : {
-        type:mongoose.SchemaTypes.ObjectId,
+        type:[mongoose.SchemaTypes.ObjectId],
         required : true,
     },
     date: {
